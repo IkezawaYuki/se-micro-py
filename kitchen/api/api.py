@@ -4,6 +4,13 @@ from datetime import datetime
 from flask.views import MethodView
 from flask_smorest import Blueprint
 
+from schemas import (
+    GetScheduleOrderSchema,
+    ScheduleOrderSchema,
+    GetScheduleOrdersSchema,
+    ScheduleStatusSchema,
+)
+
 blueprint = Blueprint("kitchen", __name__, description="Kitchen API")
 
 schedules = [{
@@ -22,17 +29,22 @@ schedules = [{
 
 @blueprint.route("/kitchen/schedules")
 class KitchenSchedules(MethodView):
+    @blueprint.response(status_code=200, schema=GetScheduleOrdersSchema)
     def get(self):
-        return {"schedules": schedules}, 200
+        return {"schedules": schedules}
 
+    @blueprint.arguments(ScheduleOrderSchema)
+    @blueprint.response(status_code=201, schema=GetScheduleOrdersSchema)
     def post(self):
-        return schedules[0], 201
+        return schedules[0]
 
 
 @blueprint.route("/kitchen/schedules/<schedule_id>")
 class KitchenSchedule(MethodView):
+    @blueprint.response(status_code=200, schema=GetScheduleOrderSchema)
     def get(self, schedule_id):
         return schedules[0], 200
+
 
     def post(self, schedule_id):
         return schedules[0], 200
