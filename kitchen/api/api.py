@@ -4,7 +4,7 @@ from datetime import datetime
 from flask.views import MethodView
 from flask_smorest import Blueprint
 
-from schemas import (
+from api.schemas import (
     GetScheduleOrderSchema,
     ScheduleOrderSchema,
     GetScheduleOrdersSchema,
@@ -43,21 +43,26 @@ class KitchenSchedules(MethodView):
 class KitchenSchedule(MethodView):
     @blueprint.response(status_code=200, schema=GetScheduleOrderSchema)
     def get(self, schedule_id):
-        return schedules[0], 200
+        return schedules[0]
 
-
+    @blueprint.arguments(ScheduleOrderSchema)
+    @blueprint.response(status_code=200, schema=GetScheduleOrderSchema)
     def post(self, schedule_id):
-        return schedules[0], 200
+        return schedules[0]
 
+    @blueprint.response(status_code=204)
     def delete(self, schedule_id):
-        return "", 204
+        return
 
 
+@blueprint.response(status_code=200, schema=GetScheduleOrderSchema)
 @blueprint.route("/kitchen/schedules/<schedule_id>/cancel", methods=["POST"])
 def cancel_schedule(schedule_id):
-    return schedules[0], 200
+    return schedules[0]
 
 
+@blueprint.response(status_code=200, schema=ScheduleStatusSchema)
 @blueprint.route("/kitchen/schedules/<schedule_id>/status", methods=["POST"])
 def get_schedule_status(schedule_id):
-    return schedules[0], 200
+    return schedules[0]
+

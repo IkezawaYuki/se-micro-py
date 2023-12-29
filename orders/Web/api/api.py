@@ -6,9 +6,8 @@ from fastapi import HTTPException
 from starlette.responses import Response
 from starlette import status
 
-from orders.app import app
-from orders.api.schemes import (
-    GetOrderSchema,
+from orders.Web.app import app
+from orders.Web.api.schemes import (
     CreateOrderSchema,
     GetOrderSchema
 )
